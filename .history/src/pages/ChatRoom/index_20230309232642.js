@@ -20,23 +20,18 @@ export default function ChatRoom() {
   const navigation = useNavigation();
   const isFocused = useIsFocused();
 
-  const [user, setUser] = useState(null)
   const [modalVisible, setModalVisible] = useState(false)
 
 
   useEffect(() => {
     const hasUser = auth().currentUser ? auth().currentUser.toJSON(): null;
     console.log(hasUser);
-
-    setUser(hasUser);
-
-  }, [isFocused]);
+  }, [])
   
   function handleSignOut(){
     auth()
     .signOut()
     .then(() => {
-      setUser(null)
       navigation.navigate("SignIn")
     }).catch(() => {
         console.log('Não possuim nenhum usuário');
@@ -48,11 +43,9 @@ export default function ChatRoom() {
     <View style={styles.headerRoom}>
       
       <View style={styles.headerRoomOLeft}>
-        { user && (
-          <TouchableOpacity onPress={handleSignOut}>
-            <MaterialIcons name="arrow-back" size={28} color="#FFF"/>
-          </TouchableOpacity>
-        )}
+        <TouchableOpacity onPress={handleSignOut}>
+          <MaterialIcons name="arrow-back" size={28} color="#FFF"/>
+        </TouchableOpacity>
         <Text style={styles.title}>Grupos</Text>
       </View>
 
@@ -62,7 +55,7 @@ export default function ChatRoom() {
     </View>
 
 
-    <FabButton setVisible={ () => setModalVisible(true) } userStatus={user}/>
+    <FabButton setVisible={ () => setModalVisible(true) }/>
 
     <Modal visible={modalVisible} animationType="fade" transparent={true}>
       <ModalNewRoom setVisible={ () => setModalVisible(false) }/>

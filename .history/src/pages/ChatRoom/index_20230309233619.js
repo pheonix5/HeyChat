@@ -36,7 +36,6 @@ export default function ChatRoom() {
     auth()
     .signOut()
     .then(() => {
-      setUser(null)
       navigation.navigate("SignIn")
     }).catch(() => {
         console.log('Não possuim nenhum usuário');

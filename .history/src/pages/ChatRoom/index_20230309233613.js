@@ -36,7 +36,6 @@ export default function ChatRoom() {
     auth()
     .signOut()
     .then(() => {
-      setUser(null)
       navigation.navigate("SignIn")
     }).catch(() => {
         console.log('Não possuim nenhum usuário');
@@ -48,11 +47,13 @@ export default function ChatRoom() {
     <View style={styles.headerRoom}>
       
       <View style={styles.headerRoomOLeft}>
+
         { user && (
           <TouchableOpacity onPress={handleSignOut}>
             <MaterialIcons name="arrow-back" size={28} color="#FFF"/>
           </TouchableOpacity>
         )}
+
         <Text style={styles.title}>Grupos</Text>
       </View>
 
