@@ -9,6 +9,7 @@ import {
 } from 'react-native';
 
 import auth from '@react-native-firebase/auth'
+import firestore from '@react-native-firebase/firestore'
 
 import { useNavigation, useIsFocused} from '@react-navigation/native';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons'
@@ -22,6 +23,8 @@ export default function ChatRoom() {
 
   const [user, setUser] = useState(null)
   const [modalVisible, setModalVisible] = useState(false)
+  const [threads, setThreads] = useState([]);
+  const [loading, setLoadging] = useState(true)
 
 
   useEffect(() => {
@@ -31,6 +34,46 @@ export default function ChatRoom() {
     setUser(hasUser);
 
   }, [isFocused]);
+
+
+  useEffect(() => {
+    let isActive = true;
+
+    function getChats(){
+      firestore()
+      .collection('MESSAGE_THREADS')
+      .orderBy('lastMessage.createdAt', 'desc')
+      .limit(10)
+      .get()
+      .then((snapshot) => {
+        const threads = snapshot.docs.map( documentSnapshot => {
+          return{
+            _id: documentSnapshot.id,
+            name: '',
+            lastMessage: { text: '' },
+            ...documentSnapshot.data()
+          }
+        })
+
+        if(isActive){
+          setThreads(threads);
+          setLoadging(false)
+        }
+        
+
+      })
+
+    }
+
+    getChats();
+
+    return () => {
+      isActive = false;
+    }
+  }, [isFocused])
+
+
+
   
   function handleSignOut(){
     auth()
