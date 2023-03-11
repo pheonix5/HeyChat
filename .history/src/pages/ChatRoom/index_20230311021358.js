@@ -30,11 +30,14 @@ export default function ChatRoom() {
   const [threads, setThreads] = useState([]);
   const [loading, setLoadging] = useState(true)
   const [updateScreen, setUpdateScreen] = useState(false)
+  const [isOwner, setIsOwner] = useState(false);
+  
 
   useEffect(() => {
     const hasUser = auth().currentUser ? auth().currentUser.toJSON(): null;
     // console.log(hasUser);
-   
+    verifyOwner();
+
     setUser(hasUser);
 
   }, [isFocused]);
@@ -119,6 +122,15 @@ export default function ChatRoom() {
       })
   }
 
+ async  function verifyOwner(){
+    
+    threads.map(documentSnapshot => {
+     documentSnapshot.owner === user?.uid ? setIsOwner(true) : setIsOwner(false);
+     console.log(documentSnapshot.owner);
+     console.log('usuario logado :', user?.uid);
+   })
+    
+  }
 
   if(loading){
     return(
@@ -151,7 +163,7 @@ export default function ChatRoom() {
       keyExtractor={ item => item._id }
       showsVerticalScrollIndicator={false}
       renderItem={ ({ item }) => (
-        <ChatList data={item} deleteRoom={ () => deleteRoom( item.owner, item._id)} userId={user?.uid} />
+        <ChatList data={item} deleteRoom={ () => deleteRoom( item.owner, item._id)} isOwner={isOwner} />
       )}
     />
 

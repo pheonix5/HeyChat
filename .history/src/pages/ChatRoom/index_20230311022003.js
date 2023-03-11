@@ -151,7 +151,7 @@ export default function ChatRoom() {
       keyExtractor={ item => item._id }
       showsVerticalScrollIndicator={false}
       renderItem={ ({ item }) => (
-        <ChatList data={item} deleteRoom={ () => deleteRoom( item.owner, item._id)} userId={user?.uid} />
+        <ChatList data={item} deleteRoom={ () => deleteRoom( item.owner, item._id)} owner={user?.uid} />
       )}
     />
 

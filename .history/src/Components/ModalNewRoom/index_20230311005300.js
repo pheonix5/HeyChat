@@ -1,13 +1,5 @@
 import React, { useState } from 'react';
-import { 
-  View, 
-  Text, 
-  StyleSheet, 
-  TextInput, 
-  TouchableOpacity, 
-  TouchableWithoutFeedback, 
-  Keyboard 
-} from 'react-native';
+import { View, Text, StyleSheet, TextInput, TouchableOpacity, TouchableWithoutFeedback } from 'react-native';
 
 import firestore from '@react-native-firebase/firestore';
 import auth from '@react-native-firebase/auth'
@@ -34,8 +26,6 @@ export default function ModalNewRoom({ setVisible, setUpdateScreen }) {
 
       if(myThreads >= 4){
         alert("Você ja atingiu o limite de grpos por Usuário - 4!") 
-        Keyboard.dismiss();
-        setRoomName('')
       }else{
         createRoom();
       }

@@ -31,10 +31,11 @@ export default function ChatRoom() {
   const [loading, setLoadging] = useState(true)
   const [updateScreen, setUpdateScreen] = useState(false)
 
+
   useEffect(() => {
     const hasUser = auth().currentUser ? auth().currentUser.toJSON(): null;
     // console.log(hasUser);
-   
+
     setUser(hasUser);
 
   }, [isFocused]);
@@ -61,8 +62,7 @@ export default function ChatRoom() {
 
         if(isActive){
           setThreads(threads);
-          setLoadging(false);
-          
+          setLoadging(false)
         }
       })
 
@@ -99,24 +99,9 @@ export default function ChatRoom() {
           text: "Cancelar",
           onPress: () => {},
           style: "cancel"
-        },
-        {
-          text: "OK",
-          onPress: () =>  handleDeleteRoom(idRoom)
         }
       ]
     )
-  }
-
-
-  async function handleDeleteRoom(idRoom){
-      await firestore()
-      .collection('MESSAGE_THREADS')
-      .doc(idRoom)
-      .delete()
-      .then(() => {
-        setUpdateScreen(!updateScreen)
-      })
   }
 
 
@@ -151,7 +136,7 @@ export default function ChatRoom() {
       keyExtractor={ item => item._id }
       showsVerticalScrollIndicator={false}
       renderItem={ ({ item }) => (
-        <ChatList data={item} deleteRoom={ () => deleteRoom( item.owner, item._id)} userId={user?.uid} />
+        <ChatList data={item} deleteRoom={ () => deleteRoom( item.owner, item._id) }/>
       )}
     />
 

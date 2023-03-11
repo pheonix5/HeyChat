@@ -30,11 +30,14 @@ export default function ChatRoom() {
   const [threads, setThreads] = useState([]);
   const [loading, setLoadging] = useState(true)
   const [updateScreen, setUpdateScreen] = useState(false)
+  const [isOwner, setIsOwner] = useState(false);
+  
+
 
   useEffect(() => {
     const hasUser = auth().currentUser ? auth().currentUser.toJSON(): null;
     // console.log(hasUser);
-   
+
     setUser(hasUser);
 
   }, [isFocused]);
@@ -59,10 +62,14 @@ export default function ChatRoom() {
           }
         })
 
+        if(threads.owner === user?.uid){
+          console.log("é dono");
+          console.log(user?.uid);
+        }
+
         if(isActive){
           setThreads(threads);
-          setLoadging(false);
-          
+          setLoadging(false)
         }
       })
 

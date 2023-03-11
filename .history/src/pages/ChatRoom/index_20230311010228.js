@@ -7,8 +7,7 @@ import {
   TouchableOpacity,
   Modal,
   ActivityIndicator,
-  FlatList,
-  Alert
+  FlatList
 } from 'react-native';
 
 import auth from '@react-native-firebase/auth'
@@ -31,10 +30,11 @@ export default function ChatRoom() {
   const [loading, setLoadging] = useState(true)
   const [updateScreen, setUpdateScreen] = useState(false)
 
+
   useEffect(() => {
     const hasUser = auth().currentUser ? auth().currentUser.toJSON(): null;
     // console.log(hasUser);
-   
+
     setUser(hasUser);
 
   }, [isFocused]);
@@ -61,8 +61,7 @@ export default function ChatRoom() {
 
         if(isActive){
           setThreads(threads);
-          setLoadging(false);
-          
+          setLoadging(false)
         }
       })
 
@@ -87,36 +86,8 @@ export default function ChatRoom() {
     })
   }
 
-  function deleteRoom(ownerId, idRoom){
-    //se tentar deletar sala na qual não seja dono ira bloquear
-    if(ownerId !== user?.uid) return;
-
-    Alert.alert(
-      "Atenção!",
-      "Você tem certeza que deseja deletar essa sala?",
-      [
-        {
-          text: "Cancelar",
-          onPress: () => {},
-          style: "cancel"
-        },
-        {
-          text: "OK",
-          onPress: () =>  handleDeleteRoom(idRoom)
-        }
-      ]
-    )
-  }
-
-
-  async function handleDeleteRoom(idRoom){
-      await firestore()
-      .collection('MESSAGE_THREADS')
-      .doc(idRoom)
-      .delete()
-      .then(() => {
-        setUpdateScreen(!updateScreen)
-      })
+  function deleteRoom(){
+    console.log('deleta algum item');
   }
 
 
@@ -151,7 +122,7 @@ export default function ChatRoom() {
       keyExtractor={ item => item._id }
       showsVerticalScrollIndicator={false}
       renderItem={ ({ item }) => (
-        <ChatList data={item} deleteRoom={ () => deleteRoom( item.owner, item._id)} userId={user?.uid} />
+        <ChatList data={item} deleteRoom={ () => deleteRoom( item.owner, item._id) }/>
       )}
     />
 

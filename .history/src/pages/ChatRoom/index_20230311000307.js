@@ -7,8 +7,7 @@ import {
   TouchableOpacity,
   Modal,
   ActivityIndicator,
-  FlatList,
-  Alert
+  FlatList
 } from 'react-native';
 
 import auth from '@react-native-firebase/auth'
@@ -29,12 +28,12 @@ export default function ChatRoom() {
   const [modalVisible, setModalVisible] = useState(false)
   const [threads, setThreads] = useState([]);
   const [loading, setLoadging] = useState(true)
-  const [updateScreen, setUpdateScreen] = useState(false)
+
 
   useEffect(() => {
     const hasUser = auth().currentUser ? auth().currentUser.toJSON(): null;
-    // console.log(hasUser);
-   
+    console.log(hasUser);
+
     setUser(hasUser);
 
   }, [isFocused]);
@@ -61,8 +60,7 @@ export default function ChatRoom() {
 
         if(isActive){
           setThreads(threads);
-          setLoadging(false);
-          
+          setLoadging(false)
         }
       })
 
@@ -73,7 +71,7 @@ export default function ChatRoom() {
     return () => {
       isActive = false;
     }
-  }, [isFocused, updateScreen])
+  }, [isFocused])
 
   
   function handleSignOut(){
@@ -83,40 +81,8 @@ export default function ChatRoom() {
       setUser(null)
       navigation.navigate("SignIn")
     }).catch(() => {
-        console.log('Não possui nenhum usuário');
+        console.log('Não possuim nenhum usuário');
     })
-  }
-
-  function deleteRoom(ownerId, idRoom){
-    //se tentar deletar sala na qual não seja dono ira bloquear
-    if(ownerId !== user?.uid) return;
-
-    Alert.alert(
-      "Atenção!",
-      "Você tem certeza que deseja deletar essa sala?",
-      [
-        {
-          text: "Cancelar",
-          onPress: () => {},
-          style: "cancel"
-        },
-        {
-          text: "OK",
-          onPress: () =>  handleDeleteRoom(idRoom)
-        }
-      ]
-    )
-  }
-
-
-  async function handleDeleteRoom(idRoom){
-      await firestore()
-      .collection('MESSAGE_THREADS')
-      .doc(idRoom)
-      .delete()
-      .then(() => {
-        setUpdateScreen(!updateScreen)
-      })
   }
 
 
@@ -150,18 +116,15 @@ export default function ChatRoom() {
       data={threads}
       keyExtractor={ item => item._id }
       showsVerticalScrollIndicator={false}
-      renderItem={ ({ item }) => (
-        <ChatList data={item} deleteRoom={ () => deleteRoom( item.owner, item._id)} userId={user?.uid} />
-      )}
+      renderItem={ ({item}) => {
+        <ChatList/>
+      }}
     />
 
     <FabButton setVisible={ () => setModalVisible(true) } userStatus={user}/>
 
     <Modal visible={modalVisible} animationType="fade" transparent={true}>
-      <ModalNewRoom 
-        setVisible={ () => setModalVisible(false) }
-        setUpdateScreen={ () => setUpdateScreen(!updateScreen) }
-      />
+      <ModalNewRoom setVisible={ () => setModalVisible(false) }/>
     </Modal>
    </SafeAreaView>
   );
@@ -170,7 +133,6 @@ export default function ChatRoom() {
 const styles = StyleSheet.create({
   container:{
     flex: 1,
-    backgroundColor: '#FFF'
   },
   headerRoom:{
     flexDirection: 'row',
