@@ -13,7 +13,7 @@ export default function ChatList({ data, deleteRoom, userId, userStatus }) {
     if(userStatus){
       navigation.navigate("Messages", { thread: data })
     }else{
-      navigation.navigate("SignIn")
+      navigation.navigate("Signin")
     }
 
   }

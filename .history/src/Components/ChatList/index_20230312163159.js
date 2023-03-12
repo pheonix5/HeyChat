@@ -5,16 +5,12 @@ import { useNavigation } from '@react-navigation/native'
 
 import Feather from 'react-native-vector-icons/Feather'
 
-export default function ChatList({ data, deleteRoom, userId, userStatus }) {
+export default function ChatList({ data, deleteRoom, userId }) {
   const navigation = useNavigation();
   const [isOwner, setIsOwner] = useState(false);
 
   function openChat(){
-    if(userStatus){
-      navigation.navigate("Messages", { thread: data })
-    }else{
-      navigation.navigate("SignIn")
-    }
+    navigation.navigate("Messages", { thread: data })
 
   }
 

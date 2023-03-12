@@ -86,11 +86,8 @@ export default function Messages({ route }) {
           text: input,
           createdAt: firestore.FieldValue.serverTimestamp(),
         }
-      },
-      { merge: true }
+      }
     )
-
-    setInput('');
   }
 
   return (
@@ -100,7 +97,6 @@ export default function Messages({ route }) {
         data={messages}
         keyExtractor={ item => item._id }
         renderItem={ ({item}) => <ChatMessage data={item} /> }
-        inverted={true}
       />
 
       <KeyboardAvoidingView

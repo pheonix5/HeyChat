@@ -10,11 +10,7 @@ export default function ChatList({ data, deleteRoom, userId, userStatus }) {
   const [isOwner, setIsOwner] = useState(false);
 
   function openChat(){
-    if(userStatus){
-      navigation.navigate("Messages", { thread: data })
-    }else{
-      navigation.navigate("SignIn")
-    }
+    navigation.navigate("Messages", { thread: data })
 
   }
 
