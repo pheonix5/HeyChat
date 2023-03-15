@@ -5,11 +5,9 @@ import { useNavigation } from '@react-navigation/native'
 
 import Feather from 'react-native-vector-icons/Feather'
 
-export default function ChatList({ data, deleteRoom, userStatus }) {
+export default function ChatList({ data, deleteRoom, userId, userStatus }) {
   const navigation = useNavigation();
   const [isOwner, setIsOwner] = useState(false);
-
-  // console.log(userStatus);
 
   function openChat(){
     if(userStatus){
@@ -26,7 +24,7 @@ export default function ChatList({ data, deleteRoom, userStatus }) {
       <View style={styles.content}>
         <View style={styles.header}>
           <Text style={styles.nameText} numberOfLines={1}>{data.name}</Text>
-          { data.owner === userStatus?.uid && (
+          { data.owner === userStatus.uid && (
             <Feather name="star" size={25} color="#2d3e"/>
           )}
         </View>

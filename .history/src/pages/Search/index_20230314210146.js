@@ -29,7 +29,6 @@ export default function Search() {
 
     const hasUser = auth().currentUser ? auth().currentUser.toJSON() : null;
     setUser(hasUser);
-    
 
   }, [isFocused])
 
@@ -80,7 +79,7 @@ export default function Search() {
       showsVerticalScrollIndicator={false}
       data={chats}
       keyExtractor={ item => item._id}
-      renderItem={ ({ item }) => <ChatList data={item} userStatus={user}/>}
+      renderItem={ ({ item }) => <ChatList data={item} userId={user?.uid} userStatus={user}/>}
     />
    </SafeAreaView>
   );

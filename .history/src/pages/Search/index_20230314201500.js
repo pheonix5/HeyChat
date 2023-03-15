@@ -5,60 +5,22 @@ import {
   View, 
   TouchableOpacity,
   SafeAreaView,
-  TextInput,
-  Keyboard,
-  FlatList
+  TextInput
  } from 'react-native';
 
  import MaterialIcons from 'react-native-vector-icons/MaterialIcons'
  import auth from '@react-native-firebase/auth';
- import firestore from '@react-native-firebase/firestore'
-
- import { useIsFocused } from '@react-navigation/native'
- import ChatList from '../../Components/ChatList';
+ import firebase from '@react-native-firebase/firestore'
 
 export default function Search() {
-  const isFocused = useIsFocused();
-
   const [input, setInput] = useState('');
-  const [user, setUser] = useState(null)
-  const [chats, setChats] = useState([])
 
 
   useEffect(() => {
 
     const hasUser = auth().currentUser ? auth().currentUser.toJSON() : null;
-    setUser(hasUser);
-    
 
-  }, [isFocused])
-
-  async function handleSearch(){
-    if(input === '') return;
-
-    const responseSearch = await firestore()
-    .collection("MESSAGE_THREADS")
-    .where('name', '>=', input)
-    .where('name', '<=', input + '\uf8ff')
-    .get()
-    .then((querySnapshot) => {
-
-      const threads = querySnapshot.docs.map( documentSnapshot => {
-        return{
-          _id: documentSnapshot.id,
-          name: '',
-          lastMessage:  { text: '' },
-          ...documentSnapshot.data()
-        }
-      })
-
-      setChats(threads);
-      // console.log(threads);
-      setInput('');
-      Keyboard.dismiss();
-    })
-
-  }
+  }, [])
 
  return (
    <SafeAreaView style={styles.container}>
@@ -71,17 +33,10 @@ export default function Search() {
         autoCapitalize={"none"}
       />
 
-      <TouchableOpacity style={styles.buttonSearch} onPress={handleSearch}>
+      <TouchableOpacity style={styles.buttonSearch}>
         <MaterialIcons name="search" size={30} color="#FFF"/>
       </TouchableOpacity>
     </View>
-
-    <FlatList 
-      showsVerticalScrollIndicator={false}
-      data={chats}
-      keyExtractor={ item => item._id}
-      renderItem={ ({ item }) => <ChatList data={item} userStatus={user}/>}
-    />
    </SafeAreaView>
   );
 }

@@ -15,7 +15,6 @@ import {
  import firestore from '@react-native-firebase/firestore'
 
  import { useIsFocused } from '@react-navigation/native'
- import ChatList from '../../Components/ChatList';
 
 export default function Search() {
   const isFocused = useIsFocused();
@@ -29,7 +28,6 @@ export default function Search() {
 
     const hasUser = auth().currentUser ? auth().currentUser.toJSON() : null;
     setUser(hasUser);
-    
 
   }, [isFocused])
 
@@ -75,13 +73,6 @@ export default function Search() {
         <MaterialIcons name="search" size={30} color="#FFF"/>
       </TouchableOpacity>
     </View>
-
-    <FlatList 
-      showsVerticalScrollIndicator={false}
-      data={chats}
-      keyExtractor={ item => item._id}
-      renderItem={ ({ item }) => <ChatList data={item} userStatus={user}/>}
-    />
    </SafeAreaView>
   );
 }

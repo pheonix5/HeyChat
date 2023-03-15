@@ -29,7 +29,6 @@ export default function Search() {
 
     const hasUser = auth().currentUser ? auth().currentUser.toJSON() : null;
     setUser(hasUser);
-    
 
   }, [isFocused])
 

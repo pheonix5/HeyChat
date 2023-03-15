@@ -9,8 +9,6 @@ export default function ChatList({ data, deleteRoom, userStatus }) {
   const navigation = useNavigation();
   const [isOwner, setIsOwner] = useState(false);
 
-  // console.log(userStatus);
-
   function openChat(){
     if(userStatus){
       navigation.navigate("Messages", { thread: data })
@@ -26,9 +24,9 @@ export default function ChatList({ data, deleteRoom, userStatus }) {
       <View style={styles.content}>
         <View style={styles.header}>
           <Text style={styles.nameText} numberOfLines={1}>{data.name}</Text>
-          { data.owner === userStatus?.uid && (
+          {/* { data.owner === userStatus.providerId.uid && (
             <Feather name="star" size={25} color="#2d3e"/>
-          )}
+          )} */}
         </View>
 
         <Text style={styles.contentText} numberOfLines={1}>

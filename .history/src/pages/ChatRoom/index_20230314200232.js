@@ -154,6 +154,7 @@ export default function ChatRoom() {
         <ChatList 
           data={item} 
           deleteRoom={ () => deleteRoom( item.owner, item._id)} 
+          userId={user?.uid}
           userStatus={user}
         />
       )}
